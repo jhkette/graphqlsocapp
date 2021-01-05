@@ -1,4 +1,4 @@
-const { model, Schema } = require('mongoose');
+const { model, Schema } = require("mongoose");
 
 // Post model
 const postSchema = new Schema({
@@ -9,19 +9,19 @@ const postSchema = new Schema({
     {
       body: String,
       username: String,
-      createdAt: String
-    }
+      createdAt: String,
+    },
   ],
   likes: [
     {
       username: String,
-      createdAt: String
-    }
+      createdAt: String,
+    },
   ],
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
-  }
+    ref: "users",
+  },
 });
 
-module.exports = model('Post', postSchema);
+module.exports = model("Post", postSchema);

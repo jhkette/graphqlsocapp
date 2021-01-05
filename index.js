@@ -15,6 +15,7 @@ const server = new ApolloServer({
   // authoissation data - ie the the jwt token in the header - to use to get the user for createPost mutation etc
   // the req is the request object
   // https://www.apollographql.com/docs/apollo-server/data/resolvers/#the-context-argument
+  // we are also adding subscription here
   context: ({ req }) => ({ req, pubsub })
 });
 

@@ -6,14 +6,17 @@
   "dependencies": {
     "apollo-server": "^2.19.0",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "graphql": "^15.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.7",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "serve": "node index.js"
   },
   "author": "",
   "license": "ISC"

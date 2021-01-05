@@ -1,6 +1,7 @@
 const Post = require("../../models/Post");
 const checkAuth = require("../../util/check-auth");
 const {AuthenticationError, UserInputError } = require("apollo-server");
+const { argsToArgsConfig } = require("graphql/type/definition");
 
 // the args for mutations are parent, args, context, info - but we add _ if not using them
 module.exports = {
@@ -34,7 +35,10 @@ module.exports = {
     async createPost(_, { body }, context) {
       // check auth return the user - the function is in utils
       const user = checkAuth(context);
-      console.log(user);
+      
+      if(args.body.trim() === ''){
+        throw new Error('Post body must not be empty')
+      }
       // create new post
       const newPost = new Post({
         body,
@@ -44,6 +48,9 @@ module.exports = {
       });
       // save post
       const post = await newPost.save();
+      context.pubsub.publish('NEW_POST', {
+        newPost: post
+      });
       return post;
     },
     
