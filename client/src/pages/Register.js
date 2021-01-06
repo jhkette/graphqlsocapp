@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "semantic-ui-react";
-import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { gql, useMutation } from "@apollo/client";
+
 
 import { useForm } from "../util/hooks";
 
@@ -27,6 +27,10 @@ function Register(props) {
     variables: values,
   });
 
+  // we are adding function registerUser here as all functions with the function keyword
+  // are hoisted in javascript and read when the file is executed 
+  // unlike the const addUser function . If we called it as  a callback in useform it would not be
+  // recognised
   function registerUser() {
     addUser();
   }

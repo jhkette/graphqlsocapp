@@ -1,6 +1,5 @@
 import React from 'react';
-import {useQuery} from '@apollo/react-hooks'
-import gql from 'graphql-tag';
+import {gql, useQuery} from '@apollo/client'
 import {Grid} from 'semantic-ui-react'
 import PostCard from '../components/PostCard';
 function Home() {
