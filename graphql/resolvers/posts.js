@@ -36,7 +36,7 @@ module.exports = {
       // check auth return the user - the function is in utils
       const user = checkAuth(context);
       
-      if(args.body.trim() === ''){
+      if(body.trim() === ''){
         throw new Error('Post body must not be empty')
       }
       // create new post

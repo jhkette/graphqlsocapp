@@ -1,43 +1,45 @@
-import React, { useState } from "react";
-import { Button, Form } from "semantic-ui-react";
-import { gql, useMutation } from "@apollo/client";
+import React, { useContext, useState } from 'react';
+import { Button, Form } from 'semantic-ui-react';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-
-import { useForm } from "../util/hooks";
+import { AuthContext } from '../context/auth';
+import { useForm } from '../util/hooks';
 
 function Register(props) {
+  const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
 
   const { onChange, onSubmit, values } = useForm(registerUser, {
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
   });
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(_, result) {
-      console.log(result);
-      props.history.push("/");
+    update(
+      _,
+      {
+        data: { register: userData }
+      }
+    ) {
+      context.login(userData);
+      props.history.push('/');
     },
-    // this holds errors that come from the server
     onError(err) {
-      setErrors(err.graphQLErrors[0].extensions.exception.errors); // this comes from server code - we sent an errors object
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
-    variables: values,
+    variables: values
   });
 
-  // we are adding function registerUser here as all functions with the function keyword
-  // are hoisted in javascript and read when the file is executed 
-  // unlike the const addUser function . If we called it as  a callback in useform it would not be
-  // recognised
   function registerUser() {
     addUser();
   }
 
   return (
     <div className="form-container">
-      <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
+      <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
         <h1>Register</h1>
         <Form.Input
           label="Username"
@@ -79,8 +81,6 @@ function Register(props) {
           Register
         </Button>
       </Form>
-      {/* object keys as we want just the messages
-      We need to check if there are keys ie greater than 0 */}
       {Object.keys(errors).length > 0 && (
         <div className="ui error message">
           <ul className="list">

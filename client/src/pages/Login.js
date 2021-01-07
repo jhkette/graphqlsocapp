@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Form } from 'semantic-ui-react';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-
+import { AuthContext } from '../context/auth';
 import { useForm } from '../util/hooks';
 
 function Login(props) {
+  const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
 
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
@@ -14,7 +16,13 @@ function Login(props) {
   });
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(_, result) {
+    update(
+      _,
+      {
+        data: { login: userData }
+      }
+    ) {
+      context.login(userData);
       props.history.push('/');
     },
     onError(err) {
@@ -22,10 +30,6 @@ function Login(props) {
     },
     variables: values
   });
-   // we are adding function registerUser here as all functions with the function keyword
-  // are hoisted in javascript and read when the file is executed 
-  // unlike the const addUser function . If we called it as  a callback in useform it would not be
-  // recognised
 
   function loginUserCallback() {
     loginUser();
