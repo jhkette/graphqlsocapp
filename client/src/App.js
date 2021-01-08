@@ -15,7 +15,9 @@ import Register from './pages/Register';
 
 function App() {
   return (
-    <AuthProvider>
+    // wrap in auth provider
+    <AuthProvider> 
+      {/* Add router */}
       <Router>
         <Container>
           <MenuBar />

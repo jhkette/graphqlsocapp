@@ -8,7 +8,9 @@ import PostForm from '../components/PostForm';
 import { FETCH_POSTS_QUERY } from '../util/graphql';
 
 function Home() {
+  // get user status from useContext(AuthContext)
   const { user } = useContext(AuthContext);
+  // get posts data using useQuery
   const {
     loading,
     data: { getPosts: posts }
@@ -25,6 +27,7 @@ function Home() {
             <PostForm />
           </Grid.Column>
         )}
+        {/* loading or show posts */}
         {loading ? (
           <h1>Loading posts..</h1>
         ) : (

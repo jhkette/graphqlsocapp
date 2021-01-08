@@ -32,7 +32,8 @@ function Register(props) {
     },
     variables: values
   });
-
+  //  function keyword get hoisted so gets called 
+  //  by onSubmit function. This then calls addUser which runs mutation
   function registerUser() {
     addUser();
   }

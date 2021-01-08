@@ -1,43 +1,44 @@
-import React, { useContext, useState } from 'react';
-import { Button, Form } from 'semantic-ui-react';
-import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import React, { useContext, useState } from "react";
+import { Button, Form } from "semantic-ui-react";
+import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
-import { AuthContext } from '../context/auth';
-import { useForm } from '../util/hooks';
+import { AuthContext } from "../context/auth";
+import { useForm } from "../util/hooks";
 
 function Login(props) {
+  // get context from AuthContext
+  // this allows us to get get context.login function
   const context = useContext(AuthContext);
   const [errors, setErrors] = useState({});
-
+ 
+  // useForm which takes a callback and initial state state
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
-    username: '',
-    password: ''
+    username: "",
+    password: "",
   });
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(
-      _,
-      {
-        data: { login: userData }
-      }
-    ) {
+    update(_, { data: { login: userData } }) {
+      // set login context
       context.login(userData);
-      props.history.push('/');
+      props.history.push("/");
     },
     onError(err) {
+      // get errors these are displayed on form
       setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
-    variables: values
+    variables: values,
   });
-
+  //  function keyword get hoisted so gets called 
+  //  by onSubmit function. This then calls loginUser which runs mutation
   function loginUserCallback() {
     loginUser();
   }
 
   return (
     <div className="form-container">
-      <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
+      <Form onSubmit={onSubmit} noValidate className={loading ? "loading" : ""}>
         <h1>Login</h1>
         <Form.Input
           label="Username"
