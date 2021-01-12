@@ -7,6 +7,7 @@ import { useForm } from '../util/hooks';
 import { FETCH_POSTS_QUERY } from '../util/graphql';
 
 function PostForm() {
+ 
   const { values, onChange, onSubmit } = useForm(createPostCallback, {
     body: ''
   });
@@ -28,6 +29,7 @@ function PostForm() {
   }
 
   return (
+    <>
     <Form onSubmit={onSubmit}>
       <h2>Create a post:</h2>
       <Form.Field>
@@ -36,13 +38,23 @@ function PostForm() {
           name="body"
           onChange={onChange}
           value={values.body}
+          error={error ? true : false}
         />
         <Button type="submit" color="teal">
           Submit
         </Button>
       </Form.Field>
     </Form>
-  );
+    {error && (
+      <div className="ui error message" style={{marginBottom: 20}}>
+        <ul className="list">
+          <li>{error.graphQLErrors[0].message}</li>
+        </ul>
+      </div>
+
+    )}
+  </>
+  )
 }
 
 const CREATE_POST_MUTATION = gql`

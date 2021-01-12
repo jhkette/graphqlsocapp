@@ -3,6 +3,7 @@ const { AuthenticationError } = require('apollo-server');
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../config/config');
 
+//  a helper function that checks .headers.authorization for a token
 module.exports = (context) => {
   // context = { ... headers }
   const authHeader = context.req.headers.authorization;

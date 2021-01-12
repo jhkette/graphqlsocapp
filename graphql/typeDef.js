@@ -1,6 +1,7 @@
 const { gql } = require("apollo-server");
 
-// typedefs define types
+// typedefs define types 
+// includes type Post, Comment etc. But also input RegisterInput. Also Query and Mutation
 module.exports = gql`
   type Post {
     id: ID!

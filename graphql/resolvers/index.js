@@ -3,6 +3,8 @@ const usersResolvers = require('./users');
 const commentsResolvers = require('./comments');
 module.exports = {
   Post: {
+    // we use post here to return a calculation 
+    // for likeCount and commentCount
     likeCount: (parent) => parent.likes.length,
     commentCount: (parent) => parent.comments.length
   },

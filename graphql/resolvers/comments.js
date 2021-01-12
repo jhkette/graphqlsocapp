@@ -2,6 +2,8 @@ const {AuthenticationError, UserInputError } = require("apollo-server");
 const Post = require("../../models/Post");
 const checkAuth = require("../../util/check-auth");
 
+// RESOLVERS FOR COMMENTS 
+/*createComment deleteComment mutations */
 module.exports = {
   Mutation: {
     createComment: async (_, { postId, body }, context) => {
@@ -15,6 +17,7 @@ module.exports = {
       }
       const post = await Post.findById(postId);
       if (post) {
+        // unshift to add at end of array
         post.comments.unshift({
           body,
           username,

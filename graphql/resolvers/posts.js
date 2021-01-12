@@ -3,9 +3,9 @@ const checkAuth = require("../../util/check-auth");
 const {AuthenticationError, UserInputError } = require("apollo-server");
 const { argsToArgsConfig } = require("graphql/type/definition");
 
-// the args for mutations are parent, args, context, info - but we add _ if not using them
+// RESOLVERS FOR POSTS 
+/*getPosts getPost createPost */
 module.exports = {
- 
   Query: {
     async getPosts() {
       try {
@@ -16,7 +16,8 @@ module.exports = {
         throw new Error(err);
       }
     },
-   
+    // getPost
+    // the args for mutations are parent, args, context, info - but we add _ if not using them
     async getPost(_, { postId }) {
       try {
         const post = await Post.findById(postId);
@@ -30,12 +31,13 @@ module.exports = {
       }
     },
   },
+  // 
   Mutation: {
-   
     async createPost(_, { body }, context) {
       // check auth return the user - the function is in utils
+      // we use this to fill fields in post
       const user = checkAuth(context);
-      
+      // if no body
       if(body.trim() === ''){
         throw new Error('Post body must not be empty')
       }
@@ -70,7 +72,9 @@ module.exports = {
         throw new Error(err);
       }
     },
+    // likePost mutation
     async likePost(_, { postId }, context) {
+      // get username from checkAuth
       const { username } = checkAuth(context);
 
       const post = await Post.findById(postId);
