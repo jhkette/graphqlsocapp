@@ -5,6 +5,9 @@ const initialState = {
   user: null
 };
 
+// here we check for a token in localStorage
+// if is old we remove token
+// we then assign initialState.user = decodedToken;
 if (localStorage.getItem('jwtToken')) {
   const decodedToken = jwtDecode(localStorage.getItem('jwtToken'));
 
@@ -14,6 +17,8 @@ if (localStorage.getItem('jwtToken')) {
     initialState.user = decodedToken;
   }
 }
+
+/*//// REACT CREATE CONTEXT  ////*/
 
 const AuthContext = createContext({
   user: null,
@@ -39,8 +44,10 @@ function authReducer(state, action) {
 }
 
 function AuthProvider(props) {
+  // with the authprovider we destructure [state, dispatch] from useReducer(authReducer, initialState);
   const [state, dispatch] = useReducer(authReducer, initialState);
-
+  // login function - sets item in localstorage 
+  // dispatch ({ login with payload}) 
   function login(userData) {
     localStorage.setItem('jwtToken', userData.token);
     dispatch({
@@ -48,7 +55,8 @@ function AuthProvider(props) {
       payload: userData
     });
   }
-
+  // logout function remove token
+  // dispatch ({logout})
   function logout() {
     localStorage.removeItem('jwtToken');
     dispatch({ type: 'LOGOUT' });
