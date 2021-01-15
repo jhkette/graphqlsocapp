@@ -7,11 +7,17 @@ import { FETCH_POSTS_QUERY } from '../util/graphql';
 
 function DeleteButton({ postId, commentId, callback }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
+  // we are making this mutation dynamic - ie it will either delete a comment or a mutation
+  // if we DO have a commentId that means we want to delete a comment 
+  // else we want to delete a post
   const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION;
   const [deletePostOrMutation] = useMutation(mutation, {
       // take proxy from update
     update(proxy) {
       setConfirmOpen(false);
+      // if not commentId we need update proxy and delete post
+      // this updates cache. obviously we do not need to do this if
+      // deleting a comment
       if(!commentId){
     //read the query
       const data = proxy.readQuery({

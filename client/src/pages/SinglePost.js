@@ -19,6 +19,7 @@ import DeleteButton from '../components/DeleteButton';
 function SinglePost(props) {
   const postId = props.match.params.postId;
   const { user } = useContext(AuthContext);
+  // declare the commentINputRef to blur input
   const commentInputRef = useRef(null);
 
   const [comment, setComment] = useState('');
@@ -34,6 +35,7 @@ function SinglePost(props) {
   const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
     update() {
       setComment('');
+      // use the ref to blur th input
       commentInputRef.current.blur();
     },
     variables: {
@@ -95,11 +97,13 @@ function SinglePost(props) {
                     {commentCount}
                   </Label>
                 </Button>
+                {/* only show if logged in */}
                 {user && user.username === username && (
                   <DeleteButton postId={id} callback={deletePostCallback} />
                 )}
               </Card.Content>
             </Card>
+            {/* again only if logged in */}
             {user && (
               <Card fluid>
                 <Card.Content>
@@ -148,7 +152,7 @@ function SinglePost(props) {
 }
 
 const SUBMIT_COMMENT_MUTATION = gql`
-  mutation($postId: String!, $body: String!) {
+  mutation($postId: ID!, $body: String!) {
     createComment(postId: $postId, body: $body) {
       id
       comments {

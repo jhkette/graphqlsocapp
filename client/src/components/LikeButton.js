@@ -19,7 +19,7 @@ function LikeButton({ user, post: { id, likeCount, likes } }) {
   const [likePost] = useMutation(LIKE_POST_MUTATION, {
     variables: { postId: id },
   });
-  //   multiple
+  //   multiple tenerary operators
   const likeButton = user ? (
     liked ? (
       <Button color="teal">
