@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { Grid, Transition} from 'semantic-ui-react';
+import React, { useContext } from "react";
+import { useQuery } from "@apollo/react-hooks";
+import { Grid, Transition } from "semantic-ui-react";
 
-import { AuthContext } from '../context/auth';
-import PostCard from '../components/PostCard';
-import PostForm from '../components/PostForm';
-import { FETCH_POSTS_QUERY } from '../util/graphql';
+import { AuthContext } from "../context/auth";
+import PostCard from "../components/PostCard";
+import PostForm from "../components/PostForm";
+import { FETCH_POSTS_QUERY } from "../util/graphql";
 
 function Home() {
   // get user status from useContext(AuthContext)
@@ -13,7 +13,7 @@ function Home() {
   // get posts data using useQuery
   const {
     loading,
-    data: { getPosts: posts }
+    data: { getPosts: posts },
   } = useQuery(FETCH_POSTS_QUERY);
 
   return (
@@ -32,17 +32,14 @@ function Home() {
           <h1>Loading posts..</h1>
         ) : (
           <Transition.Group>
-          {posts &&
-          posts.map((post) => (
-            <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
-              <PostCard post={post} />
-            </Grid.Column>
-          ))}
+            {posts &&
+              posts.map((post) => (
+                <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
+                  <PostCard post={post} />
+                </Grid.Column>
+              ))}
           </Transition.Group>
-
         )}
-        
-        
       </Grid.Row>
     </Grid>
   );
